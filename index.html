@@ -121,7 +121,7 @@
 
         /* Main Content */
         main {
-            padding: 80px 0 60px;
+            padding: 20px 0 10px;
         }
 
         section {
@@ -192,15 +192,15 @@
 
         /* Skills */
         .skills-content {
-            max-width: 500px;
             margin: 0 auto;
-            text-align: center;
+            text-align: left;
         }
 
         .skills-text {
             font-size: 1.1rem;
-            line-height: 1.8;
+            line-height: 2;
             margin-bottom: 32px;
+            text-align: center;
         }
 
         .skills-list {
@@ -222,6 +222,69 @@
             color: var(--text-color);
             margin-right: 8px;
         }
+
+        .contact-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        [data-theme="dark"] .contact-image {
+            filter: invert(1);
+        }
+
+        /* Blog Styles */
+        .blog-list {
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border-color);
+
+        }
+
+        .blog-item {
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+
+        }
+
+        .blog-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .blog-link {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            padding: 8px 0;
+        }
+
+        .blog-link:hover {
+            color: var(--text-light);
+        }
+
+       .blog-title,
+       .blog-date {
+           display: inline-block;
+           vertical-align: middle;
+           margin-bottom: 0;
+       }
+
+       .blog-title {
+           font-size: 1.1rem;
+           font-weight: 400;
+           margin-right: 16px;
+           text-align: justify;
+       }
+
+       .blog-date {
+           font-size: 0.9rem;
+           color: var(--text-light);
+           float: right;
+       }
 
         /* Contact */
         .contact-content {
@@ -267,7 +330,6 @@
             text-align: center;
             padding: 60px 0;
             border-top: 1px solid var(--border-color);
-            margin-top: 60px;
         }
 
         .footer-text {
@@ -355,130 +417,127 @@
     </style>
 </head>
 <body>
-<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="toggle theme">
     <span id="theme-icon">●</span>
 </button>
 
 <div class="container">
     <header>
-        <h1>Parthiv Chandran</h1>
-        <p class="subtitle">Backend Engineer & Full Stack Developer</p>
+        <h1>parthiv chandran</h1>
+        <p class="subtitle">software engineer</p>
         <nav>
             <ul class="nav-list">
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about">about</a></li>
+                <li><a href="#experience">experience</a></li>
+                <li><a href="#blogs">blogs</a></li>
+                <li><a href="#contact">contact</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section id="about">
-            <h2>About</h2>
+            <h2>about</h2>
             <div class="about-content">
-                <p>Backend Engineer with ~3 years of experience building scalable systems across startups and enterprise environments. I specialize in Python/Django, Go, and Spring Boot, with expertise in API design, CI/CD, and database scaling.</p>
-
-                <p>As a founding engineer at multiple startups, I've architected production-grade systems, integrated AI models, and optimized performance at scale. Currently working at Guidewire, focusing on cloud-native authorization services and improving system reliability through Test-Driven Development.</p>
+                <p>software engineer with ~2 years building scalable systems at startups and enterprises. mainly work with go and spring boot, but comfortable across the stack. currently at guidewire, focusing on cloud-native authorization services.</p> <p style="text-align: center">currently reading designing data intensive applications</p>
             </div>
         </section>
 
         <section id="experience">
-            <h2>Experience</h2>
+            <h2>experience</h2>
 
             <div class="experience-item">
                 <div class="job-header">
-                    <h3 class="job-title">Software Engineer 1</h3>
+                    <h3 class="job-title">software engineer 1</h3>
                     <div class="company-date">
-                        <span>Guidewire</span>
-                        <span>July 2025 – Present</span>
+                        <span>guidewire</span>
+                        <span>jan 2025 – present</span>
                     </div>
                 </div>
                 <div class="job-description">
-                    Led Module Decomposition and Packaging of Mithril (cloud-native authorization service), enabling cleaner deployments across 20+ internal services. Built advanced auth features in Kotlin, Go, and Python, reducing request latency and improving scalability on AWS infrastructure.
+                    led module decomposition and packaging of mithril (cloud-native authorization service), enabling cleaner deployments across 20+ internal services. built advanced auth features in kotlin, go, and python, reducing request latency and improving scalability on aws infrastructure.
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="job-header">
-                    <h3 class="job-title">Founding Engineer</h3>
+                    <h3 class="job-title">founding engineer</h3>
                     <div class="company-date">
-                        <span>Casper AI</span>
-                        <span>Jun 2024 – Dec 2024</span>
+                        <span>casper ai</span>
+                        <span>jun 2024 – dec 2024</span>
                     </div>
                 </div>
                 <div class="job-description">
-                    Architected a scalable AI-powered lead management system handling 1,000+ daily calls, increasing client acquisition by 15%. Optimized response times by 70% and improved client retention by 20% using React, Django, AWS, OpenAI, and 11Labs.
+                    architected a scalable ai-powered lead management system handling 1,000+ daily calls, increasing client acquisition by 15%. optimized response times by 70% and improved client retention by 20% using react, django, aws, openai, and 11labs.
+                </div>
+            </div>
+
+
+
+            <div class="experience-item">
+                <div class="job-header">
+                    <h3 class="job-title">full stack developer</h3>
+                    <div class="company-date">
+                        <span>aspora (yc w22)</span>
+                        <span>aug 2024 – dec 2024</span>
+                    </div>
+                </div>
+                <div class="job-description">
+                    built and optimized 8+ user interfaces improving load times by 37%. implemented seo-driven enhancements increasing web traffic by 28%. developed scalable backend features using java and spring boot for core banking infrastructure.
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="job-header">
-                    <h3 class="job-title">Full Stack Developer</h3>
+                    <h3 class="job-title">founding engineer</h3>
                     <div class="company-date">
-                        <span>Aspora (YC W22)</span>
-                        <span>Aug 2024 – Dec 2024</span>
+                        <span>rayo</span>
+                        <span>apr 2024 – jul 2024</span>
                     </div>
                 </div>
                 <div class="job-description">
-                    Built and optimized 8+ user interfaces improving load times by 37%. Implemented SEO-driven enhancements increasing web traffic by 28%. Developed scalable backend features using Java and Spring Boot for core banking infrastructure.
+                    2nd engineering hire at accessibility startup that won asean startup award and secured antler funding. led end-to-end development of web accessibility platform using react, next.js, django, and fastapi. built scalable ci/cd pipeline on azure reducing deployment time by 50% and conducted user testing to optimize product-market fit.
                 </div>
             </div>
 
             <div class="experience-item">
                 <div class="job-header">
-                    <h3 class="job-title">Co-Founder</h3>
+                    <h3 class="job-title">co-founder</h3>
                     <div class="company-date">
-                        <span>SynthiFy</span>
-                        <span>Aug 2023 – Mar 2024</span>
+                        <span>synthify</span>
+                        <span>aug 2023 – mar 2024</span>
                     </div>
                 </div>
                 <div class="job-description">
-                    Secured $10,000 funding from DFinity. Led end-to-end development of a decentralized app (dApp) on the ICP chain for cryptocurrency collateralization. Engineered a Bitcoin-pegged stablecoin and implemented secure smart contract mechanisms ensuring 100% transaction integrity.
+                    secured $10,000 funding from dfinity. led end-to-end development of a decentralized app (dapp) on the icp chain for cryptocurrency collateralization. engineered a bitcoin-pegged stablecoin and implemented secure smart contract mechanisms ensuring 100% transaction integrity.
                 </div>
             </div>
         </section>
 
-        <section id="skills">
-            <h2>Skills</h2>
+        <section id="blogs">
+            <h2>blogs</h2>
             <div class="skills-content">
-                <p class="skills-text">Proficient in building scalable backend systems with modern technologies and frameworks.</p>
-                <div class="skills-list">
-                    <div class="skills-category">
-                        <span class="category-name">Languages:</span>
-                        Java, Go, Kotlin, Python, JavaScript, TypeScript
-                    </div>
-                    <div class="skills-category">
-                        <span class="category-name">Frameworks:</span>
-                        Spring Boot, Django, React, Node.js, Angular, NextJS
-                    </div>
-                    <div class="skills-category">
-                        <span class="category-name">Cloud & DevOps:</span>
-                        AWS, Docker, Kubernetes, CI/CD, GitHub Actions
-                    </div>
-                    <div class="skills-category">
-                        <span class="category-name">AI/ML:</span>
-                        LLM workflows, RAG architecture, LangChain, Vector databases, OpenAI
+                <div class="blog-list">
+                    <div class="blog-item">
+                        <a href="blog1.html" class="blog-link">
+                            <span class="blog-title">consistent hashing in <br> distributed systems </span>
+                            <span class="blog-date">March 15, 2024</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="contact">
-            <h2>Contact</h2>
+            <h2>contact</h2>
             <div class="contact-content">
-                <p class="contact-text">Feel free to reach out for collaboration opportunities or just to say hello.</p>
-                <ul class="contact-links">
-                    <li><a href="mailto:parthiv.c2002@gmail.com">parthiv.c2002@gmail.com</a></li>
-                    <li><a href="https://github.com/parthivvv" target="_blank">github.com/parthivvv</a></li>
-                    <li><a href="https://linkedin.com/in/parthivvv" target="_blank">linkedin.com/in/parthivvv</a></li>
-                </ul>
+                <img src="contact.png" alt="Contact Information" class="contact-image">
             </div>
         </section>
     </main>
 
     <footer>
-        <p class="footer-text">© 2025 Parthiv Chandran</p>
+        <p class="footer-text">© 2025 parthiv chandran</p>
     </footer>
 </div>
 

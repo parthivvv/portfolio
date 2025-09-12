@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building Scalable Systems: Lessons from the Trenches - Parthiv Chandran</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --text-light: #666666;
+      --text-lighter: #999999;
+      --border-color: #e1e1e1;
+      --hover-color: #f8f8f8;
+      --code-bg: #f8f9fa;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0d1117;
+      --text-color: #e6edf3;
+      --text-light: #8b949e;
+      --text-lighter: #7d8590;
+      --border-color: #30363d;
+      --hover-color: #161b22;
+      --code-bg: #161b22;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      line-height: 1.7;
+      color: var(--text-color);
+      background-color: var(--bg-color);
+      background-size: 100px 100px, 100px 100px, 50px 50px;
+      background-attachment: fixed;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header */
+    header {
+      padding: 40px 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 60px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.2s forwards;
+    }
+
+    .back-link {
+      color: var(--text-light);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+      display: inline-block;
+      transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+      color: var(--text-color);
+    }
+
+    .article-header {
+      text-align: center;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .article-meta {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex-wrap: wrap;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: none;
+      border: 1px solid var(--border-color);
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      font-size: 14px;
+      color: var(--text-color);
+      opacity: 0;
+      animation: fadeIn 1s ease-out 1s forwards;
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--hover-color);
+      transform: rotate(180deg);
+    }
+
+    /* Article Content */
+    .article-content {
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.6s forwards;
+    }
+
+    .article-content h2 {
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin: 50px 0 25px 0;
+      line-height: 1.3;
+    }
+
+    .article-content h3 {
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin: 40px 0 20px 0;
+      line-height: 1.3;
+    }
+
+    .article-content p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      line-height: 1.8;
+    }
+
+    .article-content blockquote {
+      border-left: 3px solid var(--border-color);
+      padding-left: 30px;
+      margin: 40px 0;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .article-content code {
+      background-color: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 0.9em;
+      border: 1px solid var(--border-color);
+    }
+
+    .article-content pre {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 30px 0;
+      border: 1px solid var(--border-color);
+    }
+
+    .article-content pre code {
+      background: none;
+      padding: 0;
+      border: none;
+      font-size: 0.85rem;
+    }
+
+    .article-content ul, .article-content ol {
+      margin: 25px 0 25px 30px;
+    }
+
+    .article-content li {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Reading Progress */
+    .reading-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: var(--text-color);
+      z-index: 1000;
+      transition: width 0.1s ease;
+    }
+
+    /* Table of Contents */
+    .toc {
+      background-color: var(--hover-color);
+      border: 1px solid var(--border-color);
+      padding: 25px;
+      margin: 40px 0;
+      border-radius: 5px;
+    }
+
+    .toc h4 {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+    }
+
+    .toc ul {
+      list-style: none;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .toc a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .toc a:hover {
+      color: var(--text-light);
+    }
+
+    /* Footer Navigation */
+    .article-footer {
+      margin-top: 80px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-nav-item {
+      flex: 1;
+      text-align: left;
+    }
+
+    .footer-nav-item:last-child {
+      text-align: right;
+    }
+
+    .footer-nav-item.single {
+      text-align: center;
+    }
+
+    .footer-nav-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .footer-nav-link {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-nav-link:hover {
+      color: var(--text-light);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+
+      .article-meta {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .footer-nav {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .footer-nav-item,
+      .footer-nav-item:last-child {
+        text-align: center;
+      }
+
+      .toc {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="reading-progress"></div>
+
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+  <span id="theme-icon">●</span>
+</button>
+
+<div class="container">
+  <header>
+    <a href="index.html" class="back-link">← home</a>
+    <div class="article-header">
+      <h1 class="article-title">consistent hashing in distributed systems</h1>
+      <div class="article-meta">
+        <span>Sept 13, 2025</span>
+        <span>Engineering</span>
+        <span>8 min read</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="article-content">
+    <p>Picture this: you're running a chat app that's suddenly gone viral. Yesterday you had 3 servers happily handling your users, and today you need 10. Where do you put user "alice123"'s messages? If you naively hash her username and mod by server count, she'll bounce between servers every time you scale up. That's exactly the problem consistent hashing solves—and why every distributed system engineer needs to understand it.</p>
+
+    <div class="toc">
+      <h4>Contents</h4>
+      <ul>
+        <li><a href="#the-problem">The Problem with Simple Hashing</a></li>
+        <li><a href="#consistent-hashing">Enter Consistent Hashing</a></li>
+        <li><a href="#clustering-problem">The Clustering Problem</a></li>
+        <li><a href="#virtual-nodes">Virtual Nodes to the Rescue</a></li>
+        <li><a href="#van-der-corput">Van der Corput: Mathematical Elegance</a></li>
+        <li><a href="#real-world">Real-World Applications</a></li>
+        <li><a href="#lessons-learned">Key Takeaways</a></li>
+      </ul>
+    </div>
+
+    <h2 id="the-problem">The Problem with Simple Hashing</h2>
+    <p>Let's start with the obvious approach. You have N servers, so you hash your data key and take <code>hash(key) % N</code>. Simple, right?</p>
+
+    <pre><code>def simple_hash(key, num_servers):
+    return hash(key) % num_servers
+
+# With 3 servers
+user_server = simple_hash("alice123", 3)  # Server 2
+</code></pre>
+
+    <p>This works beautifully until you need to scale. Add one server, and suddenly:</p>
+
+    <pre><code># Now with 4 servers
+user_server = simple_hash("alice123", 4)  # Server 1 (different!)
+</code></pre>
+
+    <p>Nearly every key gets remapped to a different server. In a distributed cache, that means your cache hit rate drops to zero. In a database, it means massive data migration. At Casper AI, when we scaled our user session storage, this exact issue caused a brief outage until we implemented proper consistent hashing.</p>
+
+    <h2 id="consistent-hashing">Enter Consistent Hashing</h2>
+    <p>Consistent hashing solves this by arranging both servers and keys on a virtual circle (or "hash ring"). Think of it like a clock face where both your data and servers have positions.</p>
+
+    <blockquote>
+    The brilliant insight: when you add or remove a server, only the keys between that server and the previous one need to move.
+    </blockquote>
+
+    <p>Here's the basic algorithm:</p>
+    <ol>
+      <li>Hash each server name to get its position on the ring</li>
+      <li>To find where data goes, hash the key and walk clockwise to the first server</li>
+      <li>When adding/removing servers, only adjacent keys need to move</li>
+    </ol>
+
+    <pre><code>class ConsistentHashRing:
+    def __init__(self):
+        self.ring = {}
+        self.sorted_keys = []
+
+    def add_server(self, server):
+        key = hash(server)
+        self.ring[key] = server
+        self.sorted_keys = sorted(self.ring.keys())
+
+    def get_server(self, data_key):
+        if not self.ring:
+            return None
+
+        key = hash(data_key)
+        # Find first server clockwise
+        for server_key in self.sorted_keys:
+            if key <= server_key:
+                return self.ring[server_key]
+
+        # Wrap around to first server
+        return self.ring[self.sorted_keys[0]]
+</code></pre>
+
+    <h2 id="clustering-problem">The Clustering Problem</h2>
+    <p>But wait—there's a catch. With just one point per server, you get terrible distribution. Imagine you have servers named "A", "B", and "C". Their hash values might cluster together on one side of the ring, leaving a huge gap where no servers exist.</p>
+
+    <p>I learned this the hard way when implementing consistent hashing for Rayo's accessibility platform. Our initial naive implementation created hot spots where some servers handled 70% of the traffic while others sat nearly idle. The load was so uneven it defeated the purpose of having multiple servers!</p>
+
+    <h2 id="virtual-nodes">Virtual Nodes to the Rescue</h2>
+    <p>The solution is virtual nodes (vnodes). Instead of placing each physical server once on the ring, we place it many times with different hash values:</p>
+
+    <pre><code>def add_server_with_vnodes(self, server, num_vnodes=150):
+    for i in range(num_vnodes):
+        vnode_key = hash(f"{server}:{i}")
+        self.ring[vnode_key] = server
+    self.sorted_keys = sorted(self.ring.keys())
+</code></pre>
+
+    <p>Now each server appears ~150 times around the ring, creating much better distribution. When you remove a server, its load gets spread across all remaining servers instead of dumping everything on the next server clockwise.</p>
+
+    <h2 id="van-der-corput">Van der Corput: Mathematical Elegance</h2>
+    <p>Here's where it gets interesting. While random virtual node placement works, we can do better with Van der Corput sequences—a mathematical technique that creates surprisingly uniform distribution.</p>
+
+    <p>Van der Corput sequences generate points that are "maximally spread out." Think of it like this: if you're placing dots on a line and want them as evenly spaced as possible, Van der Corput gives you the optimal positions.</p>
+
+    <pre><code>def van_der_corput(n, base=2):
+    """Generate the nth number in Van der Corput sequence"""
+    result = 0.0
+    base_inv = 1.0 / base
+    while n > 0:
+        result += (n % base) * base_inv
+        n //= base
+        base_inv /= base
+    return result
+
+def add_server_vdc(self, server, num_vnodes=150):
+    for i in range(num_vnodes):
+        # Use VdC sequence for better distribution
+        position = van_der_corput(i + 1) * (2**32)
+        vnode_key = int(position)
+        self.ring[vnode_key] = server
+    self.sorted_keys = sorted(self.ring.keys())
+</code></pre>
+
+    <p>The beauty of Van der Corput is that it eliminates clustering artifacts that can occur with purely random placement. At Guidewire, we use this approach in our authorization service to ensure that permission checks are evenly distributed across our cache nodes.</p>
+
+    <blockquote>
+    Fun fact: Van der Corput sequences are used in computer graphics for anti-aliasing and in financial modeling for Monte Carlo simulations. The same math that makes your 3D renders look smooth also makes your distributed system perform better!
+    </blockquote>
+
+    <h2 id="real-world">Real-World Applications</h2>
+    <p>You'll find consistent hashing everywhere in distributed systems:</p>
+
+    <ul>
+      <li><strong>Amazon DynamoDB</strong> uses it to partition data across storage nodes</li>
+      <li><strong>Apache Cassandra</strong> built it into their core architecture</li>
+      <li><strong>Content Delivery Networks</strong> use it to decide which edge server serves your request</li>
+      <li><strong>Load balancers</strong> use it for session affinity without sticky sessions</li>
+    </ul>
+
+    <p>At Synthify, we used consistent hashing to distribute cryptocurrency wallet operations across our ICP nodes. The beauty was that when we added nodes for our growing user base, the redistribution was minimal and automatic.</p>
+
+    <h3>Performance Characteristics</h3>
+    <p>With virtual nodes:</p>
+    <ul>
+      <li><strong>Lookup time:</strong> O(log N) where N is number of vnodes</li>
+      <li><strong>Storage overhead:</strong> O(V×S) where V is vnodes per server, S is servers</li>
+      <li><strong>Rebalancing:</strong> Only 1/S of data moves when adding/removing servers</li>
+    </ul>
+
+    <h2 id="lessons-learned">Key Takeaways</h2>
+    <p>After implementing consistent hashing in production systems multiple times, here's what I've learned:</p>
+
+    <ol>
+      <li><strong>Start with 150+ virtual nodes</strong> per server. Too few creates uneven distribution, too many wastes memory.</li>
+      <li><strong>Monitor distribution in production.</strong> Even with vnodes, you might hit edge cases that create hot spots.</li>
+      <li><strong>Consider Van der Corput sequences</strong> if you're seeing clustering issues with random placement.</li>
+      <li><strong>Plan for heterogeneous servers.</strong> A 32-core server should probably get more vnodes than a 4-core one.</li>
+      <li><strong>Test your edge cases.</strong> What happens when you lose exactly half your servers? Make sure the system gracefully handles catastrophic failures.</li>
+    </ol>
+
+    <p>Consistent hashing isn't just an academic concept—it's a practical tool that powers the internet-scale systems we use every day. Whether you're building the next viral app or optimizing enterprise software, understanding how to distribute load evenly while handling failures gracefully is essential.</p>
+
+    <p>The next time you scale your system from 3 to 10 servers and your users don't even notice, you'll know consistent hashing is working behind the scenes, keeping everything running smoothly.</p>
+  </main>
+
+  <footer class="article-footer">
+    <div class="footer-nav">
+      <div class="footer-nav-item single">
+        <div class="footer-nav-label">Back to</div>
+        <a href="index.html" class="footer-nav-link">Home</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+
+    if (body.hasAttribute('data-theme')) {
+      body.removeAttribute('data-theme');
+      themeIcon.textContent = '●';
+    } else {
+      body.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = '○';
+    }
+  }
+
+  // Load saved theme
+  document.addEventListener('DOMContentLoaded', function() {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const themeIcon = document.getElementById('theme-icon');
+
+    if (prefersDark) {
+      document.body.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = '○';
+    }
+
+    // Reading progress
+    function updateReadingProgress() {
+      const article = document.querySelector('.article-content');
+      const progressBar = document.querySelector('.reading-progress');
+
+      if (article && progressBar) {
+        const articleRect = article.getBoundingClientRect();
+        const articleHeight = article.offsetHeight;
+        const windowHeight = window.innerHeight;
+        const scrolled = Math.max(0, -articleRect.top);
+        const progress = Math.min(100, (scrolled / (articleHeight - windowHeight)) * 100);
+
+        progressBar.style.width = progress + '%';
+      }
+    }
+
+    window.addEventListener('scroll', updateReadingProgress);
+    updateReadingProgress(); // Initial call
+  });
+
+  // Smooth scroll for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+</script>
+</body>
+</html>
